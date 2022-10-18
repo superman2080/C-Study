@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <math.h>
 
 typedef struct Poly {
 	int val;
@@ -42,25 +43,22 @@ void AddPolynomial(Poly* pol, int v, int d) {
 		pol->nextDeg = temp;
 }
 
-void MinusPolynomial(Poly* origin, Poly* minus) {
+Poly* MinusPolynomial(Poly* origin, Poly* minus) {
 
+	Poly* temp = NULL;
 	Poly* minAddress = minus;
-
+	bool isExist = false;
 	while (origin)
 	{
 		while (minus)
 		{
 			if (origin->deg == minus->deg && origin->val - minus->val != 0) {
-
-				if (origin->val - minus->val > 0) {
-					printf("+");
-				}
-
-				if (origin->deg == 0) {
-					printf(" %d", origin->val - minus->val);
+				if (!isExist) {
+					temp = CreatePolynomial(origin->val - minus->val, origin->deg);
+					isExist = true;
 				}
 				else {
-					printf(" %dx^%d ", origin->val - minus->val, origin->deg);
+					AddPolynomial(temp, origin->val - minus->val, origin->deg);
 				}
 			}
 			minus = minus->nextDeg;
@@ -68,6 +66,7 @@ void MinusPolynomial(Poly* origin, Poly* minus) {
 		origin = origin->nextDeg;
 		minus = minAddress;
 	}
+	return temp;
 }
 
 int GetMaxDegree(Poly* pol) {
@@ -91,12 +90,15 @@ void PrintPolynomial(Poly* pol, int maxDeg) {
 			if (pol->val > 0) {
 				printf("+");
 			}
+			else {
+				printf("-");
+			}
 
 			if (maxDeg == 0) {
-				printf(" %d", pol->val);
+				printf(" %d", abs(pol->val));
 			}
 			else {
-				printf(" %dx^%d ", pol->val, pol->deg);
+				printf(" %dx^%d ", abs(pol->val), pol->deg);
 			}
 			break;
 		}
@@ -115,7 +117,7 @@ void DestroyPoly(Poly* pol) {
 }
 
 int main() {
-	Poly* pol1 = CreatePolynomial(-7, 5);
+	Poly* pol1 = CreatePolynomial(7, 5);
 	AddPolynomial(pol1, -4, 4);
 	AddPolynomial(pol1, 8, 1);
 	AddPolynomial(pol1, 4, 1);
@@ -131,10 +133,12 @@ int main() {
 	PrintPolynomial(pol2, GetMaxDegree(pol2));
 	printf("\n");
 
-	MinusPolynomial(pol1, pol2);
+	Poly* minus = MinusPolynomial(pol1, pol2);
 
+	PrintPolynomial(minus, GetMaxDegree(minus));
 
 	DestroyPoly(pol1);
 	DestroyPoly(pol2);
+	DestroyPoly(minus);
 	return 0;
 }
