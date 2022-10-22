@@ -16,8 +16,10 @@ Node* CreateHead(int data) {
 }
 
 void CreateNode(Node* head, int data) {
-	while (head->next)
+	while (true)
 	{
+		if(head->next == NULL)
+			break;
 		head = head->next;
 	}
 	Node* temp = (Node*)malloc(sizeof(Node));
