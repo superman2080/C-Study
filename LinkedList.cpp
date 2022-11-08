@@ -16,8 +16,10 @@ Node* CreateHead(int data) {
 }
 
 void CreateNode(Node* head, int data) {
-	while (head->next)
+	while (true)
 	{
+		if (head->next == NULL)
+			break;
 		head = head->next;
 	}
 	Node* temp = (Node*)malloc(sizeof(Node));
@@ -53,7 +55,7 @@ int GetNode(Node* head, int idx) {
 	return _CRT_INT_MAX;
 }
 
-bool AddNode(Node* head, int data, int idx) {
+bool InsertNode(Node* head, int data, int idx) {
 	int i = 0;
 	while (head)
 	{
@@ -79,12 +81,8 @@ bool AddNode(Node* head, int data, int idx) {
 
 bool DeleteNode(Node* head, int idx) {
 	int i = 0;
-
-	if (idx == 0) {
-		Node* temp = head;
-		temp = temp->next;
-		free(head);
-		return true;
+	if (idx < 1) {
+		return false;
 	}
 	else {
 		while (head)
@@ -107,6 +105,46 @@ bool DeleteNode(Node* head, int idx) {
 	return false;
 }
 
+bool ModifyNode(Node* head, int d, int idx) {
+	int i = 0;
+	if (idx < 0)
+		return false;
+	while (head) {
+		if (idx == i) {
+			head->data = d;
+			return true;
+		}
+		head = head->next;
+		i++;
+	}
+	return false;
+}
+
+int GetListLength(Node* head) {
+	int idx = 0;
+	while (true)
+	{
+		idx++;
+		if (head->next == NULL)
+			break;
+	}
+	return idx;
+}
+
+void ReverseList(Node* head) {
+	Node* p = NULL;
+	Node* q = NULL;
+	Node* r = NULL;
+	p = head;
+
+	while (p != NULL) {
+		r = q;
+		q = p;
+		p = p->next;
+		q->next = r;
+	}
+}
+
 void DestroyList(Node* head) {
 	while (head)
 	{
@@ -122,13 +160,18 @@ int main() {
 	CreateNode(head, 3);
 	CreateNode(head, 4);
 
-	DeleteNode(head, 2);
+	printf("%d\n", DeleteNode(head, 1));
+	PrintAllNodes(head);
 	
-	AddNode(head, 10, 2);
+	InsertNode(head, 10, 1);
 	PrintAllNodes(head);
 
-	printf("%d\n", GetNode(head, 0));
+	printf("%d\n", GetNode(head, 1));
 
+	printf("%d\n", ModifyNode(head, 100, 0));
+	PrintAllNodes(head);
+	ReverseList(head);
+	PrintAllNodes(head);
 	DestroyList(head);
 	return 0;
 }
