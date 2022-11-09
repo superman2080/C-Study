@@ -2,7 +2,7 @@
 #include <malloc.h>
 
 typedef struct Node {
-	int data;
+	char data;
 	Node* next;
 }Node;
 
@@ -10,7 +10,7 @@ typedef struct Stack {
 	Node* top;
 }Stack;
 
-Stack* CreateStack(int data) {
+Stack* CreateStack(char data) {
 	Stack* tS = (Stack*)malloc(sizeof(Stack));
 	Node* temp = (Node*)malloc(sizeof(Node));
 	tS->top = temp;
@@ -23,7 +23,7 @@ bool IsEmpty(Stack* stack) {
 	return stack->top == NULL;
 }
 
-void Push(Stack* stack, int data) {
+void Push(Stack* stack, char data) {
 
 	Node* temp = (Node*)malloc(sizeof(Node));
 	temp->data = data;
@@ -46,24 +46,53 @@ int Pop(Stack* stack) {
 	return data;
 }
 
+void PrintStack(Stack* stack) {
+	Node* temp = stack->top;
+	printf("[");
+	while (temp)
+	{
+		printf(" %c ", temp->data);
+		temp = temp->next;
+	}
+	printf("]\n");
+}
+
 int Peak(Stack* stack) {
 	return stack->top->data;
 }
 
+void DestroyStack(Stack* stack) {
+	while (stack->top != NULL)
+	{
+		if (stack->top->next != NULL) {
+			Node* next = stack->top->next;
+			free(stack->top);
+			stack->top = next;
+		}
+		else {
+			free(stack->top);
+			free(stack);
+		}
+	}
+}
+
 int main() {
-	Stack* stack = CreateStack(1);
-	Push(stack, 2);
-	Push(stack, 3);
-	Push(stack, 4);
+	Stack* stack = CreateStack('A');
+	Push(stack, 'B');
+	printf("%c\n", Pop(stack));
+	Push(stack, 'C');
+	Push(stack, 'D');
 
 	printf("isEmpty : %d\n", IsEmpty(stack));
 
-	printf("%d\n", Peak(stack));
+	printf("%c\n", Peak(stack));
+	PrintStack(stack);
 	while (stack->top)
 	{
-		printf("%d\n", Pop(stack));
+		printf("%c\n", Pop(stack));
 	}
 	printf("isEmpty : %d\n", IsEmpty(stack));
-
+	Push(stack, 'S');
+	DestroyStack(stack);
 	return 0;
 }
