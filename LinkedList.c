@@ -18,15 +18,7 @@ Node* CreateHead(int data) {
 void CreateNode(Node* head, int data) {
 	while (true)
 	{
-<<<<<<< HEAD
 		if (head->next == NULL)
-=======
-<<<<<<< HEAD:LinkedList.c
-		if(head->next == NULL)
-=======
-		if (head->next == NULL)
->>>>>>> 2700f9b (Stack):LinkedList.cpp
->>>>>>> master
 			break;
 		head = head->next;
 	}
