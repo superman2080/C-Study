@@ -43,13 +43,13 @@ void AddTree(TNode* head, int data) {
 
 void PrintTree(TNode* head, int idx) {
 	if (head != NULL) {
-		printf("%d번째 : %d\n", idx, head->data);
+		printf("%d Count : %d\n", idx, head->data);
 		idx++;
 		if (head->left != NULL)
-			printf("왼쪽, ");
+			printf("Left, ");
 			PrintTree(head->left, idx);
 		if (head->right != NULL)
-			printf("오른쪽, ");
+			printf("Right, ");
 			PrintTree(head->right, idx);
 	}
 }
