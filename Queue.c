@@ -8,14 +8,14 @@ typedef struct Node {
 
 typedef struct Queue {
 	Node* front;
-	Node* reer;
+	Node* rear;
 }Queue;
 
 Queue* CreateQueue(char data) {
 	Queue* tQ = (Queue*)malloc(sizeof(Queue));
 	Node* temp = (Node*)malloc(sizeof(Node));
 	tQ->front = temp;
-	tQ->reer = temp;
+	tQ->rear = temp;
 	tQ->front->data = data;
 	tQ->front->next = NULL;
 
@@ -32,9 +32,9 @@ void Enqueue(Queue* queue, char data) {
 		queue->front = temp;
 	}
 	else {
-		queue->reer->next = temp;
+		queue->rear->next = temp;
 	}
-	queue->reer = temp;
+	queue->rear = temp;
 
 }
 
@@ -49,7 +49,7 @@ char Dequeue(Queue* queue) {
 		}
 		else {
 			queue->front = NULL;
-			queue->reer = NULL;
+			queue->rear = NULL;
 			free(queue->front);
 
 			return res;
@@ -79,7 +79,7 @@ void DestroyQueue(Queue* queue) {
 		else {
 			free(queue->front);
 			queue->front = NULL;
-			queue->reer = NULL;
+			queue->rear = NULL;
 			free(queue);
 			break;
 		}
