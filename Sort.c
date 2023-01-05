@@ -61,7 +61,7 @@ void InsertionSort(int arr[], int arrSize) {
 
 //퀵정렬
 //시간 복잡도: O(nlogn)
-//대부분의 가장 빠른 정렬
+//대부분의 상황에서 가장 빠른 정렬
 //추가 메모리를 사용 X
 //최악의 상황에선 같은 시간 복잡도를 갖는 정렬 중 최악 (n^2)
 void QuickSort(int arr[], int left, int right) {
